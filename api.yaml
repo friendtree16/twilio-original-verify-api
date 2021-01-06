@@ -1,0 +1,62 @@
+swagger: "2.0"
+info:
+  description: "Twilio Programmable SMSとTwilio Programmable Voiceを用いて作成した2要素認証基盤のサンプルAPI"
+  version: "1.0.0"
+  title: "original verify api"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+schemes:
+- "https"
+- "http"
+paths:
+  /verifications:
+    post:
+      summary: "認証コードの送信"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "to"
+        in: "formData"
+        description: "認証コード送信先"
+        required: true
+        type: "string"
+      - name: "channel"
+        in: "formData"
+        description: "送信方法　sms/voice"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "send success"
+        "400":
+          description: "Invalid input"
+  /VerificationCheck:
+    post:
+      summary: "送信した認証コードの確認"
+      description: ""
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "to"
+        in: "formData"
+        description: "認証コード送信先"
+        required: true
+        type: "string"
+      - name: "code"
+        in: "formData"
+        description: "送信された認証コード"
+        required: true
+        type: "string"
+      responses:
+        "200":
+          description: "verify success"
+        "400":
+          description: "Invalid input"
+        "401":
+          description: "verify failure"
