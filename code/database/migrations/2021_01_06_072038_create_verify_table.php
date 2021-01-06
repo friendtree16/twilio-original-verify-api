@@ -13,7 +13,7 @@ class CreateVerifyTable extends Migration
      */
     public function up()
     {
-        Schema::create('verify', function (Blueprint $table) {
+        Schema::create('verifies', function (Blueprint $table) {
             $table->id();
             $table->string('to');
             $table->string('code');
