@@ -70,16 +70,24 @@ class VerificationsController extends Controller
     }
 
     // 認証コード送信
-    private function sendCode($code,$channel,$to) {
+    private function sendCode($code,$channel,$to) 
+    {
         $client = new Client(env('TWILIO_SID'),env('TWILIO_TOKEN'));
         if($channel == 'sms') {
-            $client->messages->create($to,
-            [
-                'from' => env( 'TWILIO_FROM' ),
-                'body' => 'あなたの認証コードは '.$code.' です。',
-            ]);
+            $client->messages->create(
+                $to,
+                [
+                    'from' => env( 'TWILIO_FROM' ),
+                    'body' => 'あなたの認証コードは '.$code.' です。',
+                ]);
             return true;
-        } else if($channel == 'call'){
+        } else if($channel == 'voice'){
+            $client->calls->create(
+                $to,
+                env( 'TWILIO_FROM_VOICE' ), // from
+                [
+                    "twiml" => "<Response><Say language='ja-JP'>あなたの認証コードは".join(',',str_split($code))."です。</Say></Response>"
+                ]);
             return true;
         } else {
             return false;
