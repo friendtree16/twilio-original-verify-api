@@ -45,18 +45,21 @@ class VerificationsController extends Controller
         }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function verificationCheck(Request $request)
     {
-        return response()->json([
-            'message' => 'verification success'
-        ]);
+        $verifies = Verify::where('to',$request->to)->where('code',$request->code)->whereNotIn('status',['verified'])->get();
+        if(count($verifies) == 1) {
+            $verify = $verifies->first();
+            $verify->status = 'verified';
+            $verify->save();
+            return response()->json([
+                'message' => 'verification success'
+            ],200);
+        } else {
+            return response()->json([
+                'message' => 'verification failuer'
+            ],401);
+        }
     }
 
     // 認証コード生成
