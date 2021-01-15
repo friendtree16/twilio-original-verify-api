@@ -29,6 +29,6 @@ class CreateVerifyTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('verify');
+        Schema::dropIfExists('verifies');
     }
 }
